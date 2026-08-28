@@ -21,6 +21,22 @@
 
 ---
 
+## 📸 界面截图
+
+> 截图位于本仓库 `images/` 目录（已建），按文件名对应下图位置。示例：
+
+| Studio · 生成（T2I/I2I/I2V 表单 + 画廊） | 画布 · 编排（类 ComfyUI 原生节点画布） |
+|---|---|
+| ![Studio](images/studio.png) | ![画布](images/canvas.png) |
+
+| Agent 对话生成（任务模板/画布编排结果） | 服务状态条（启停 + 模型切换） |
+|---|---|
+| ![Agent 生成](images/agent.png) | ![服务状态](images/status.png) |
+
+**如何添加/更新截图**：把对应界面截图命名为 `studio.png` / `canvas.png` / `agent.png` / `status.png` 放入 `images/` 目录，`git add images && git commit && git push` 即可（无需改 README）。
+
+---
+
 ## 🔧 解决了什么问题
 
 1. **DSH 无法直接驱动 ComfyUI**
