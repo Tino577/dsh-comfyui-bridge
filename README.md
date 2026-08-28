@@ -71,45 +71,61 @@
 
 ---
 
-## 📦 DSH 专属插件下载与安装
+## 📋 使用前提条件
 
-> 前提：已安装 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 并初始化 web profile。
+| 依赖 | 说明 | 检查方式 |
+|---|---|---|
+| **DeepSeek Harness** | 已安装并初始化 `web` profile（DSH 主程序，插件运行宿主） | `dsh --version` |
+| **ComfyUI** | 完整可运行的 ComfyUI 源码目录（插件负责启停，不内置） | 目录含 `main.py`、`models/`、`custom_nodes/` |
+| **Python 3.10 + PyTorch** | ComfyUI 运行环境；建议 CUDA 版 torch + NVIDIA GPU | `python -c "import torch;print(torch.cuda.is_available())"` 为 `True` |
+| **生成模型** | 至少一个 checkpoint（如 SD1.5 / 动漫模型）放 `models/checkpoints/`；视频功能需 LTXV 2B + T5xxl（放 `diffusion_models/`、`text_encoders/`） | 插件面板模型下拉可见 |
+| **ComfyUI 服务可访问** | 默认 `127.0.0.1:8188`，可由插件 `comfy_start` 拉起（或外部启动） | 面板状态条显示"运行中" |
+| **云端平台模型（可选）** | 如用 Kling/Veo 等云端节点，需 [Comfy.org](https://comfy.org) API key | 节点参数 `api_key_comfy_org` |
 
-### 方式一：GitHub 克隆 + 构建 + 装配（推荐）
+## 📦 安装部署流程
+
+### 第 1 步：获取插件
 
 ```bash
-# 1) 克隆到本地
-git clone https://github.com/<你的用户名>/dsh-comfyui-bridge.git F:\dsh-comfyui-bridge
+git clone https://github.com/Tino577/dsh-comfyui-bridge.git F:\dsh-comfyui-bridge
+```
 
-# 2) 构建（依赖通过 junction 链接到 DSH checkout，无需 npm install）
+> 也可下载 Release 附件（含 `lib/` 构建产物，跳过第 2 步）。
+
+### 第 2 步：构建（依赖经 junction 链接到 DSH checkout，无需 npm install）
+
+```bash
 cd F:\dsh-comfyui-bridge
-DSH_CHECKOUT=F:/deepseek-harness bash scripts/build.sh
-node F:\deepseek-harness\node_modules\.bin\tsdown.cmd   # 构建 client
-
-# 3) 在 DSH 会话中装配（写入 bundles，重启自动加载）
-#    向 Agent 发送：
-#    dev_install_package {"dir":"F:/dsh-comfyui-bridge"}
+DSH_CHECKOUT=F:/deepseek-harness bash scripts/build.sh    # 构建 host（lib/index.js）
+node F:\deepseek-harness\node_modules\.bin\tsdown.cmd     # 构建 client（lib/client.js）
 ```
 
-### 方式二：npm 包安装（发布 npm 后）
+### 第 3 步：装配到 DSH（bundles 持久化，重启自动加载）
 
-```bash
-npm install @dsh-external/comfyui-bridge
-dsh plugin --profile web add @dsh-external/comfyui-bridge
-```
-
-### 方式三：Release 产物（npm pack tgz / zip）
-
-下载 Release 附件（含 `lib/` 构建产物）后，在 DSH 会话中：
+在 DSH 会话中向 Agent 发送：
 
 ```
-dev_install_package {"dir":"<解压目录>"}
+dev_install_package {"dir":"F:/dsh-comfyui-bridge"}
 ```
 
-### 使用
+> 也可用注入方式：`dev_inject_plugin {"dir":"F:/dsh-comfyui-bridge"}`（运行时生效，重启需重注）。
 
-- 打开 DSH → 会话 → 视图 tab「ComfyUI」→ `Studio · 生成` / `画布 · 编排`
-- 或直接对 Agent 说：*"生成一张二次元动漫图：…"*、*"搭一个文生图→放大的画布跑一下"*、*"做个产品宣传海报"*
+### 第 4 步：准备 ComfyUI
+
+- 确认 `F:\ComfyUI` 可运行（`main.py` + 依赖 + 模型齐全）
+- 至少放一个 checkpoint 到 `F:\ComfyUI\models\checkpoints\`
+- 视频功能另需 LTXV 模型（见「使用前提条件」）
+
+### 第 5 步：启动与验证
+
+1. **刷新 DSH 页面** → 打开会话 → 视图 tab「ComfyUI」
+2. 面板顶部状态条：若 ComfyUI 未运行，点「启动服务」（或对 Agent 说 `comfy_start`）
+3. 状态条变绿"运行中"后即可使用：
+   - `Studio · 生成`：文生图 / 图生图 / 图生视频 表单生成
+   - `画布 · 编排`：节点画布搭建工作流
+   - 或直接对话：*"生成一张二次元动漫图：…"*、*"搭一个文生图→放大的画布跑一下"*、*"做个产品宣传海报"*
+
+> **重启 DSH 后**：插件自动装配（bundles）；ComfyUI 服务需再次 `comfy_start`（或手动启动）。
 
 ---
 
