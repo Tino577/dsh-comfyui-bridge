@@ -4,3 +4,6 @@ lib/
 *.tsbuildinfo
 *.tgz
 *.bak
+
+.idea/
+.vscode/
