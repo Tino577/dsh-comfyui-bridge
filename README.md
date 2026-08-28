@@ -23,17 +23,9 @@
 
 ## 📸 界面截图
 
-> 截图位于本仓库 `images/` 目录（已建），按文件名对应下图位置。示例：
-
 | Studio · 生成（T2I/I2I/I2V 表单 + 画廊） | 画布 · 编排（类 ComfyUI 原生节点画布） |
 |---|---|
 | ![Studio](images/studio.png) | ![画布](images/canvas.png) |
-
-| Agent 对话生成（任务模板/画布编排结果） | 服务状态条（启停 + 模型切换） |
-|---|---|
-| ![Agent 生成](images/agent.png) | ![服务状态](images/status.png) |
-
-**如何添加/更新截图**：把对应界面截图命名为 `studio.png` / `canvas.png` / `agent.png` / `status.png` 放入 `images/` 目录，`git add images && git commit && git push` 即可（无需改 README）。
 
 ---
 
@@ -153,7 +145,10 @@ dev_reload_package comfyui-bridge
 `generate`(t2i/i2i/i2v) · `upload` · `history`(+delete) · `templates`(list/import/import-url/export/delete/run) · `workflows`(save/load/delete) · `canvas`(state/op/run/agent-run/nodes/export/import) · `tasks`(list/run) · `video-models`
 
 ---
-
+## 注意：
+1. 目前comfyui部分功能还未对接，可以简单在dsh页面使用通过agent操作comfyui
+2. 视频图片生成效果与硬件模型有关，需要更多功能扩展可以留言
+3. 后续将会持续更新
 ## 📄 License
 
 BSD-3-Clause
