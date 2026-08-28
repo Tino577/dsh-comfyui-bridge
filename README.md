@@ -24,8 +24,8 @@
 ## 📸 界面截图
 
 | Studio · 生成（T2I/I2I/I2V 表单 + 画廊） | 画布 · 编排（类 ComfyUI 原生节点画布） |
-|---|---|
-| ![Studio](images/studio.png) | ![画布](images/canvas.png) |
+|----------------------------------|---------------------------|
+| ![Studio](images/studio.jpg)     | ![画布](images/canvas.jpg)  |
 
 ---
 
