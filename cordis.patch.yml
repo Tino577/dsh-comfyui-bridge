@@ -1,0 +1,11 @@
+# @dsh-external/comfyui-bridge bundle patch.
+#
+# Applied over the dsh-web-app layer. This bundle contributes ONE host row
+# (ComfyUI 服务生命周期 + Studio API + 工具注册)；client 半区由 package.json 的
+# `dsh.client` manifest 自动装配（会话视图 tab「ComfyUI」，内含官方前端/Studio/画布）。
+#
+# inject 由插件模块导出的 `inject: ['tools', 'webServer']` 提供，loader 等待服务就绪。
+
+- insert:
+    - id: comfyui-bridge
+      name: '@dsh-external/comfyui-bridge'
